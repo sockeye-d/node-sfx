@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://crs5kvnxay6kd"]
+
+[ext_resource type="Script" path="res://MainNode.cs" id="1_68cki"]
+[ext_resource type="PackedScene" uid="uid://cdgnkkgvihyrs" path="res://node_graph/node_graph.tscn" id="2_0hwi8"]
+
+[sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_v7eak"]
+
+[node name="MainNode" type="Node2D"]
+script = ExtResource("1_68cki")
+
+[node name="NodeGraph" parent="." instance=ExtResource("2_0hwi8")]
+
+[node name="VolumeSlider" type="HSlider" parent="NodeGraph"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -26.0
+offset_right = 300.0
+offset_bottom = -10.0
+grow_vertical = 0
+max_value = 1.0
+step = 0.0
+
+[node name="Player" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamGenerator_v7eak")

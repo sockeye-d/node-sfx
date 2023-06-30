@@ -1,0 +1,57 @@
+[gd_scene load_steps=3 format=3 uid="uid://cdgnkkgvihyrs"]
+
+[ext_resource type="Script" path="res://node_graph/node_graph.gd" id="1_r4ndo"]
+[ext_resource type="PackedScene" uid="uid://bc2p61vw5rhbp" path="res://node_graph/nodes.tscn" id="2_ty28d"]
+
+[node name="NodeGraph" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1152.0
+offset_bottom = 648.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_r4ndo")
+
+[node name="GraphEdit" type="GraphEdit" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+right_disconnects = true
+zoom_min = 0.25
+zoom_max = 1.0
+zoom_step = 1.001
+show_zoom_label = true
+
+[node name="Output" type="GraphNode" parent="GraphEdit"]
+layout_mode = 0
+offset_right = 92.0
+offset_bottom = 80.0
+mouse_filter = 1
+title = "Output"
+slot/0/left_enabled = true
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = false
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+
+[node name="Label" type="Label" parent="GraphEdit/Output"]
+layout_mode = 2
+text = "Value"
+
+[node name="Nodes" parent="." instance=ExtResource("2_ty28d")]
+visible = false
+layout_mode = 1
+
+[connection signal="connection_request" from="GraphEdit" to="." method="_on_graph_edit_connection_request"]
+[connection signal="disconnection_request" from="GraphEdit" to="." method="_on_graph_edit_disconnection_request"]
