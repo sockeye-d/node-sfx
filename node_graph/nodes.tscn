@@ -71,14 +71,14 @@ popup/item_2/id = 2
 popup/item_3/text = "Divide"
 popup/item_3/id = 3
 
-[node name="A" type="SpinBox" parent="Math"]
+[node name="Port0" type="SpinBox" parent="Math"]
 layout_mode = 2
 step = 0.0
 allow_greater = true
 allow_lesser = true
 prefix = "A:"
 
-[node name="B" type="SpinBox" parent="Math"]
+[node name="Port1" type="SpinBox" parent="Math"]
 layout_mode = 2
 step = 0.0
 allow_greater = true

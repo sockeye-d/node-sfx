@@ -1,25 +1,38 @@
 using Godot;
 using System;
-using NodeSFX;
 
-namespace NodeSFX.node_graph.node_scripts
+public partial class Math : GraphNode, IOperatorGraphNode
 {
-    public partial class Math : GraphNode, IOperatorGraphNode
+    public int ArgumentCount => 2;
+
+    private static readonly Func<double, double, double>[] functions =
     {
-        static private Func<double, double, double>[] functions =
-        {
             (x, y) => x + y,
             (x, y) => x - y,
             (x, y) => x * y,
             (x, y) => x / y,
         };
 
-        public object[] Execute(object[] args)
+    public double Execute(double?[] args)
+    {
+        double[] inputs = new double[args.Length];
+        for (int i = 0; i < inputs.Length; i++)
         {
-            return new object[]
+            if (args[i] == null)
             {
-                functions[GetNode<OptionButton>("Option").Selected].Invoke((double)args[0], (double)args[1])
-            };
+                inputs[i] = GetNode<SpinBox>($"Port{i}").Value;
+            }
+            else
+            {
+                inputs[i] = (double)args[i];
+            }
         }
+        return functions[GetNode<OptionButton>("Option").Selected].Invoke(inputs[0], inputs[1]);
+    }
+
+    public override void _Process(double delta)
+    {
+        NodePath path = GetPath();
+        Title = path.GetName(path.GetNameCount() - 1);
     }
 }

@@ -1,8 +1,9 @@
 using Godot;
 using Godot.NativeInterop;
-using NodeSFX;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 public partial class MainNode : Node2D
 {
@@ -28,6 +29,11 @@ public partial class MainNode : Node2D
             To = (string)dict["to"];
             ToPort = (int)dict["to_port"];
         }
+
+        public override string ToString()
+        {
+            return $"From port {FromPort} on {From} to {ToPort} on {To}";
+        }
     }
 
     [Export]
@@ -38,11 +44,12 @@ public partial class MainNode : Node2D
 
     double _phase = 0;
 
-    int _oldTreeHash;
-    Dictionary<string, NodeConnection> _nodeConnectionCache = null;
+    Godot.Collections.Array<Godot.Collections.Dictionary> _oldConnectionList;
+    Dictionary<string, List<NodeConnection>> _nodeConnectionCache = null;
 
     public override void _Ready()
     {
+        _oldConnectionList = GetNode<GraphEdit>("NodeGraph/GraphEdit").GetConnectionList();
         _player = GetNode<AudioStreamPlayer>("Player");
         _player.Play();
         _playbackStream = (AudioStreamGeneratorPlayback)_player.GetStreamPlayback();
@@ -62,6 +69,11 @@ public partial class MainNode : Node2D
 
             to_fill--;
         }
+        if (Input.IsActionJustPressed("run_tree"))
+        {
+            double treeRes = _ExecuteNodeTree(GetNode<GraphEdit>("NodeGraph/GraphEdit"));
+            GetNode<Label>("Label").Text = treeRes.ToString();
+        }
     }
 
     private void _AddMono(double x)
@@ -69,29 +81,61 @@ public partial class MainNode : Node2D
         _playbackStream.PushFrame(new Vector2((float)x, (float)x));
     }
 
-    private Dictionary<string, NodeConnection> _GetNodeConnections(GraphEdit graph)
+    private Dictionary<string, List<NodeConnection>> _GetNodeConnections(GraphEdit graph)
     {
         Godot.Collections.Array<Godot.Collections.Dictionary> tree = graph.GetConnectionList();
-        Dictionary<string, NodeConnection> connections = new Dictionary<string, NodeConnection>();
-        for(int i = 0; i < tree.Count; i++)
+        Dictionary<string, List<NodeConnection>> connections = new Dictionary<string, List<NodeConnection>>();
+        for (int i = 0; i < tree.Count; i++)
         {
-            connections.Add((string)tree[i]["to"], new NodeConnection(tree[i]));
+            if (connections.TryGetValue((string)tree[i]["to"], out List<NodeConnection> nodeConnections))
+            {
+                nodeConnections.Add(new NodeConnection(tree[i]));
+            }
+            else
+            {
+                connections.Add((string)tree[i]["to"], new NodeConnection[] { new NodeConnection(tree[i]) }.ToList());
+            }
         }
         return connections;
     }
 
-    private object[] _ExecuteNodeTree(GraphEdit graph)
+    private double _ExecuteNodeTree(GraphEdit graph)
     {
-        if (graph.GetHashCode() != _oldTreeHash)
-        {
-            _nodeConnectionCache = _GetNodeConnections(graph);
-        }
-        Dictionary<string, NodeConnection> tree = _nodeConnectionCache;
-        return _ExecuteNode(tree, tree["Output"].To);
+        //if (!graph.GetConnectionList().RecursiveEqual(_oldConnectionList))
+        //{
+        //    _oldConnectionList = graph.GetConnectionList();
+        //    _nodeConnectionCache = _GetNodeConnections(graph);
+        //    GD.Print($"Graph changed");
+        //    foreach (KeyValuePair<string, List<NodeConnection>> connection in _nodeConnectionCache)
+        //    {
+        //        StringBuilder sb = new StringBuilder();
+        //        foreach (NodeConnection nodeConnection in connection.Value)
+        //        {
+        //            sb.Append(nodeConnection.ToString());
+        //        }
+        //        GD.Print(connection.Key, ": ", sb.ToString());
+        //        GD.Print();
+        //    }
+        //    GD.Print(_nodeConnectionCache["Output"][0].ToString());
+        //}
+        Dictionary<string, List<NodeConnection>> tree = _GetNodeConnections(graph);
+        //if (tree == null)
+        //{
+        //    return 0.0;
+        //}
+        return (double)_ExecuteNode(tree, tree["Output"][0].To);
     }
 
-    private object[] _ExecuteNode(Dictionary<string, NodeConnection> tree, string path)
+    private double? _ExecuteNode(Dictionary<string, List<NodeConnection>> tree, string path)
     {
-        return GetNode<IOperatorGraphNode>(path).Execute(_ExecuteNode(tree, tree[path].From));
+        var currentNode = GetNode<IOperatorGraphNode>($"NodeGraph/GraphEdit/{path}");
+        GD.Print(currentNode);
+        double?[] args = new double?[currentNode.ArgumentCount];
+        GD.Print(currentNode.ArgumentCount);
+        for (int i = 0; i < args.Length; i++)
+        {
+            args[i] = null;// _ExecuteNode(tree, tree[path][i].From);
+        }
+        return currentNode.Execute(args);
     }
 }

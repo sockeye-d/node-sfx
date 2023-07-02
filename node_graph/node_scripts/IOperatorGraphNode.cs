@@ -1,7 +1,8 @@
-namespace NodeSFX
+using Godot.Collections;
+using System.Reflection.Metadata;
+
+public interface IOperatorGraphNode
 {
-    public interface IOperatorGraphNode
-    {
-        public object[] Execute(object[] args);
-    }
+    public abstract int ArgumentCount { get; }
+    public double Execute(double?[] args);
 }
