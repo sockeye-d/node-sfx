@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://crs5kvnxay6kd"]
 
 [ext_resource type="Script" path="res://MainNode.cs" id="1_68cki"]
-[ext_resource type="PackedScene" uid="uid://cdgnkkgvihyrs" path="res://node_graph/node_graph.tscn" id="2_0hwi8"]
+[ext_resource type="PackedScene" uid="uid://cdgnkkgvihyrs" path="res://NodeGraph/node_graph.tscn" id="2_0hwi8"]
 
 [sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_v7eak"]
 

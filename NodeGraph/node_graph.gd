@@ -23,9 +23,11 @@ func _get_graph_node(id: String) -> GraphNode:
 
 func _on_graph_edit_connection_request(from_node, from_port, to_node, to_port):
 	$GraphEdit.connect_node(from_node, from_port, to_node, to_port)
+	get_node("GraphEdit/" + str(to_node) + "/Port" + str(to_port)).editable = false
 	connection_changed.emit()
 
 
 func _on_graph_edit_disconnection_request(from_node, from_port, to_node, to_port):
 	$GraphEdit.disconnect_node(from_node, from_port, to_node, to_port)
+	get_node("GraphEdit/" + str(to_node) + "/Port" + str(to_port)).editable = true
 	connection_changed.emit()

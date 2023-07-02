@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bc2p61vw5rhbp"]
 
-[ext_resource type="Script" path="res://node_graph/node_scripts/Math.cs" id="1_tn0sl"]
+[ext_resource type="Script" path="res://NodeGraph/math.gd" id="1_gkwbt"]
 
 [node name="Nodes" type="Control"]
 layout_mode = 3
@@ -51,7 +51,7 @@ slot/3/right_type = 0
 slot/3/right_color = Color(1, 1, 1, 1)
 slot/3/right_icon = null
 slot/3/draw_stylebox = true
-script = ExtResource("1_tn0sl")
+script = ExtResource("1_gkwbt")
 
 [node name="Output" type="Label" parent="Math"]
 layout_mode = 2
