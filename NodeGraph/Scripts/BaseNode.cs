@@ -11,10 +11,12 @@ public abstract class BaseNode
     public Dictionary<int, BaseNode> Left;
     public double[] NodeArgs;
 
+    public virtual bool Drawable { get => false; }
+
     protected BaseNode(Dictionary<int, BaseNode> left, double[] defaultValues, string id)
     {
-        this.Left = left;
-        this.NodeArgs = defaultValues;
+        Left = left;
+        NodeArgs = defaultValues;
         Identifier = id;
     }
 

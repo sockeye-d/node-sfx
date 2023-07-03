@@ -13,6 +13,7 @@ layout_mode = 0
 offset_right = 92.0
 offset_bottom = 80.0
 title = "Math"
+show_close = true
 slot/0/left_enabled = false
 slot/0/left_type = 0
 slot/0/left_color = Color(1, 1, 1, 1)
@@ -122,6 +123,7 @@ prefix = "B:"
 offset_right = 92.0
 offset_bottom = 80.0
 title = "WaveformGenerator"
+show_close = true
 slot/0/left_enabled = false
 slot/0/left_type = 0
 slot/0/left_color = Color(1, 1, 1, 1)
@@ -214,6 +216,7 @@ prefix = "Phase:"
 offset_right = 92.0
 offset_bottom = 80.0
 title = "Time"
+show_close = true
 slot/0/left_enabled = false
 slot/0/left_type = 0
 slot/0/left_color = Color(1, 1, 1, 1)
@@ -228,3 +231,76 @@ slot/0/draw_stylebox = true
 layout_mode = 2
 text = "Output"
 horizontal_alignment = 2
+
+[node name="InlineComment" type="GraphNode" parent="."]
+offset_right = 92.0
+offset_bottom = 80.0
+title = "InlineComment"
+show_close = true
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = false
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+slot/1/left_enabled = false
+slot/1/left_type = 0
+slot/1/left_color = Color(1, 1, 1, 1)
+slot/1/left_icon = null
+slot/1/right_enabled = true
+slot/1/right_type = 0
+slot/1/right_color = Color(1, 1, 1, 1)
+slot/1/right_icon = null
+slot/1/draw_stylebox = true
+slot/2/left_enabled = true
+slot/2/left_type = 0
+slot/2/left_color = Color(1, 1, 1, 1)
+slot/2/left_icon = null
+slot/2/right_enabled = false
+slot/2/right_type = 0
+slot/2/right_color = Color(1, 1, 1, 1)
+slot/2/right_icon = null
+slot/2/draw_stylebox = true
+
+[node name="TextEdit" type="TextEdit" parent="InlineComment"]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 2
+placeholder_text = "Write a comment here..."
+wrap_mode = 1
+scroll_fit_content_height = true
+
+[node name="Output" type="Label" parent="InlineComment"]
+layout_mode = 2
+text = "Output"
+horizontal_alignment = 2
+
+[node name="Port0" type="SpinBox" parent="InlineComment"]
+layout_mode = 2
+max_value = 44100.0
+step = 0.0
+allow_greater = true
+allow_lesser = true
+prefix = "Input:"
+
+[node name="Comment" type="GraphNode" parent="."]
+offset_right = 92.0
+offset_bottom = 80.0
+title = "InlineComment"
+show_close = true
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = false
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+
+[node name="TextEdit" type="TextEdit" parent="Comment"]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 2
+placeholder_text = "Write a comment here..."
