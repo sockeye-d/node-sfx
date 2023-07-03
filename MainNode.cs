@@ -14,31 +14,45 @@ public partial class MainNode : Node2D
     public AudioStreamGeneratorPlayback _playbackStream;
 
     public double _phase = 0;
+    private BaseNode _nodeTree;
+
+    public void _OnNodeGraphConnectionChanged()
+    {
+        _nodeTree = _GenerateTreeFromGodotConnections(GetNode<GraphEdit>("NodeGraph/GraphEdit").GetConnectionList(), "Output");
+    }
 
     public override void _Ready()
     {
         _player = GetNode<AudioStreamPlayer>("Player");
-        _player.Play();
-        _playbackStream = (AudioStreamGeneratorPlayback)_player.GetStreamPlayback();
     }
 
     public override void _Process(double delta)
     {
+        if (Input.IsActionJustPressed("run_tree"))
+        {
+            PlayGeneratedAudio();
+        }
+    }
+
+    public void PlayGeneratedAudio()
+    {
+        _player.Stop();
+        _player.Play();
+        _playbackStream = (AudioStreamGeneratorPlayback)_player.GetStreamPlayback();
+        _nodeTree = _GenerateTreeFromGodotConnections(GetNode<GraphEdit>("NodeGraph/GraphEdit").GetConnectionList(), "Output");
         double volume = GetNode<HSlider>("NodeGraph/VolumeSlider").Value;
-        double increment = 440.0 / SAMPLE_RATE;
+
+        double increment = 1.0 / SAMPLE_RATE;
         double to_fill = _playbackStream.GetFramesAvailable();
 
         while (to_fill > 0)
         {
-            _AddMono(Mathf.Sin(_phase * Mathf.Tau) * volume);
-            _phase += increment % 1.0;
-
-
+            BaseNode.Time = _phase;
+            double value = _nodeTree.ExecuteNode();
+            _AddMono(value * volume);
+            GetNode<Label>("Label").Text = value.ToString();
+            _phase += increment;
             to_fill--;
-        }
-        if (Input.IsActionJustPressed("run_tree"))
-        {
-            GD.Print(_GenerateTreeFromGodotConnections(GetNode<GraphEdit>("NodeGraph/GraphEdit").GetConnectionList(), "Output").ExecuteNode());
         }
     }
 
@@ -81,6 +95,10 @@ public partial class MainNode : Node2D
                 return new MathNode(new(), args, path, node.GetNode<OptionButton>("Option").Selected);
             case "Output":
                 return new OutputNode(new(), args, path);
+            case "WaveformGenerator":
+                return new WaveformGeneratorNode(new(), args, path, node.GetNode<OptionButton>("Option").Selected);
+            case "Time":
+                return new TimeNode(new(), args, path);
             default:
                 return null;
         }

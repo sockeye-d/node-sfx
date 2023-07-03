@@ -5,10 +5,11 @@ using System.Text;
 
 public abstract class BaseNode
 {
+    public static double Time;
+
     public string Identifier;
     public Dictionary<int, BaseNode> Left;
     public double[] NodeArgs;
-    public static Dictionary<string, int> GlobalArguments;
 
     protected BaseNode(Dictionary<int, BaseNode> left, double[] defaultValues, string id)
     {

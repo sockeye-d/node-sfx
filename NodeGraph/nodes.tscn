@@ -1,6 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://bc2p61vw5rhbp"]
-
-[ext_resource type="Script" path="res://NodeGraph/math.gd" id="1_gkwbt"]
+[gd_scene format=3 uid="uid://bc2p61vw5rhbp"]
 
 [node name="Nodes" type="Control"]
 layout_mode = 3
@@ -51,7 +49,6 @@ slot/3/right_type = 0
 slot/3/right_color = Color(1, 1, 1, 1)
 slot/3/right_icon = null
 slot/3/draw_stylebox = true
-script = ExtResource("1_gkwbt")
 
 [node name="Output" type="Label" parent="Math"]
 layout_mode = 2
@@ -60,7 +57,7 @@ horizontal_alignment = 2
 
 [node name="Option" type="OptionButton" parent="Math"]
 layout_mode = 2
-item_count = 4
+item_count = 22
 selected = 0
 popup/item_0/text = "Add"
 popup/item_0/id = 0
@@ -70,6 +67,42 @@ popup/item_2/text = "Multiply"
 popup/item_2/id = 2
 popup/item_3/text = "Divide"
 popup/item_3/id = 3
+popup/item_4/text = "Power"
+popup/item_4/id = 4
+popup/item_5/text = "Square root"
+popup/item_5/id = 5
+popup/item_6/text = "Absolute"
+popup/item_6/id = 6
+popup/item_7/text = "Minimum"
+popup/item_7/id = 7
+popup/item_8/text = "Maximum"
+popup/item_8/id = 8
+popup/item_9/text = "Less than"
+popup/item_9/id = 9
+popup/item_10/text = "Greater than"
+popup/item_10/id = 10
+popup/item_11/text = "Sign"
+popup/item_11/id = 11
+popup/item_12/text = "Floor"
+popup/item_12/id = 12
+popup/item_13/text = "Ceiling"
+popup/item_13/id = 13
+popup/item_14/text = "Round"
+popup/item_14/id = 14
+popup/item_15/text = "Modulo"
+popup/item_15/id = 15
+popup/item_16/text = "Sine"
+popup/item_16/id = 16
+popup/item_17/text = "Cosine"
+popup/item_17/id = 17
+popup/item_18/text = "Tangent"
+popup/item_18/id = 18
+popup/item_19/text = "Arcsine"
+popup/item_19/id = 19
+popup/item_20/text = "Arccosine"
+popup/item_20/id = 20
+popup/item_21/text = "Arctangent"
+popup/item_21/id = 21
 
 [node name="Port0" type="SpinBox" parent="Math"]
 layout_mode = 2
@@ -84,3 +117,114 @@ step = 0.0
 allow_greater = true
 allow_lesser = true
 prefix = "B:"
+
+[node name="WaveformGenerator" type="GraphNode" parent="."]
+offset_right = 92.0
+offset_bottom = 80.0
+title = "WaveformGenerator"
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+slot/1/left_enabled = false
+slot/1/left_type = 0
+slot/1/left_color = Color(1, 1, 1, 1)
+slot/1/left_icon = null
+slot/1/right_enabled = false
+slot/1/right_type = 0
+slot/1/right_color = Color(1, 1, 1, 1)
+slot/1/right_icon = null
+slot/1/draw_stylebox = true
+slot/2/left_enabled = true
+slot/2/left_type = 0
+slot/2/left_color = Color(1, 1, 1, 1)
+slot/2/left_icon = null
+slot/2/right_enabled = false
+slot/2/right_type = 0
+slot/2/right_color = Color(1, 1, 1, 1)
+slot/2/right_icon = null
+slot/2/draw_stylebox = true
+slot/3/left_enabled = true
+slot/3/left_type = 0
+slot/3/left_color = Color(1, 1, 1, 1)
+slot/3/left_icon = null
+slot/3/right_enabled = false
+slot/3/right_type = 0
+slot/3/right_color = Color(1, 1, 1, 1)
+slot/3/right_icon = null
+slot/3/draw_stylebox = true
+slot/4/left_enabled = false
+slot/4/left_type = 0
+slot/4/left_color = Color(1, 1, 1, 1)
+slot/4/left_icon = null
+slot/4/right_enabled = false
+slot/4/right_type = 0
+slot/4/right_color = Color(1, 1, 1, 1)
+slot/4/right_icon = null
+slot/4/draw_stylebox = true
+
+[node name="Output" type="Label" parent="WaveformGenerator"]
+layout_mode = 2
+text = "Output"
+horizontal_alignment = 2
+
+[node name="Option" type="OptionButton" parent="WaveformGenerator"]
+layout_mode = 2
+item_count = 4
+selected = 0
+popup/item_0/text = "Sine"
+popup/item_0/id = 0
+popup/item_1/text = "Triangle"
+popup/item_1/id = 1
+popup/item_2/text = "Saw"
+popup/item_2/id = 2
+popup/item_3/text = "Square"
+popup/item_3/id = 3
+
+[node name="Port0" type="SpinBox" parent="WaveformGenerator"]
+layout_mode = 2
+max_value = 44100.0
+step = 0.0
+value = 440.0
+allow_greater = true
+allow_lesser = true
+prefix = "Frequency:"
+
+[node name="Port1" type="SpinBox" parent="WaveformGenerator"]
+layout_mode = 2
+step = 0.0
+value = 1.0
+allow_greater = true
+allow_lesser = true
+prefix = "Amplitude:"
+
+[node name="Port2" type="SpinBox" parent="WaveformGenerator"]
+layout_mode = 2
+step = 0.0
+allow_greater = true
+allow_lesser = true
+prefix = "Phase:"
+
+[node name="Time" type="GraphNode" parent="."]
+offset_right = 92.0
+offset_bottom = 80.0
+title = "Time"
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+
+[node name="Output" type="Label" parent="Time"]
+layout_mode = 2
+text = "Output"
+horizontal_alignment = 2

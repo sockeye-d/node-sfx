@@ -1,0 +1,54 @@
+[gd_scene load_steps=2 format=3 uid="uid://b0rivq12av407"]
+
+[ext_resource type="Script" path="res://NodeGraph/node_selector.gd" id="1_dt7s2"]
+
+[node name="NodeSelector" type="Window"]
+initial_position = 1
+title = "Select node..."
+size = Vector2i(200, 300)
+transient = true
+exclusive = true
+unresizable = true
+always_on_top = true
+popup_window = true
+script = ExtResource("1_dt7s2")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ItemList" type="ItemList" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+item_count = 3
+item_0/text = "Math"
+item_1/text = "WaveformGenerator"
+item_2/text = "Time"
+
+[node name="Button" type="Button" parent="Control"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -19.0
+offset_top = -28.0
+offset_right = 19.0
+grow_horizontal = 2
+grow_vertical = 0
+disabled = true
+text = "Add"
+
+[connection signal="close_requested" from="." to="." method="_on_close_requested"]
+[connection signal="item_activated" from="Control/ItemList" to="." method="_type_selected"]
+[connection signal="item_clicked" from="Control/ItemList" to="." method="_on_item_list_item_clicked"]
+[connection signal="pressed" from="Control/Button" to="." method="_type_selected" binds= [-1]]

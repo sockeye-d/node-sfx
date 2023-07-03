@@ -53,6 +53,7 @@ slot/0/draw_stylebox = true
 
 [node name="Port0" type="SpinBox" parent="GraphEdit/Output"]
 layout_mode = 2
+step = 0.0
 allow_greater = true
 allow_lesser = true
 
