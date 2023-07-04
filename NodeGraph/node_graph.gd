@@ -19,10 +19,12 @@ func _add_node(pos: Vector2):
 	var selected_node: String = ""
 	selected_node = await _get_node_from_window(Vector2i(pos))
 	var node: GraphNode = _get_graph_node(selected_node).duplicate()
-	$GraphEdit.add_child(node)
 	node.position_offset = ($GraphEdit.scroll_offset + pos) / $GraphEdit.zoom
 	if $GraphEdit.use_snap:
 		node.position_offset = node.position_offset.snapped(Vector2.ONE * $GraphEdit.snap_distance)
+	node.show()
+	$GraphEdit.add_child(node)
+	node.process_mode = Node.PROCESS_MODE_PAUSABLE
 	return node
 
 func _get_graph_node(id: String) -> GraphNode:

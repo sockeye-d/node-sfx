@@ -3,9 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-public abstract class BaseNode
+public abstract class BaseNode : IDisposable
 {
     public static double Time;
+    public static double SampleRate;
 
     public string Identifier;
     public Dictionary<int, BaseNode> Left;
@@ -56,5 +57,13 @@ public abstract class BaseNode
             }
         }
         return $"{sb}";
+    }
+
+    public virtual void Dispose()
+    {
+        foreach (var kvp in Left)
+        {
+            kvp.Value.Dispose();
+        }
     }
 }

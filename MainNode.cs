@@ -18,33 +18,44 @@ public partial class MainNode : Node2D
 
     public void _OnNodeGraphConnectionChanged()
     {
-        _nodeTree = _GenerateTreeFromGodotConnections(GetNode<GraphEdit>("NodeGraph/GraphEdit").GetConnectionList(), "Output");
+        _GenerateTree();
+        GD.Print("Node graph has been changed");
     }
 
     public override void _Ready()
     {
         _player = GetNode<AudioStreamPlayer>("Player");
+        _GenerateTree();
     }
 
     public override void _Process(double delta)
     {
-        if (Input.IsActionJustPressed("run_tree"))
+        if (Input.IsActionJustPressed("run_tree") && _player.Playing)
         {
-            PlayGeneratedAudio();
+            _player.Stop();
+        }
+        else if (Input.IsActionJustPressed("run_tree"))
+        {
+            _phase = 0.0;
+            _player.Play();
+            _playbackStream = (AudioStreamGeneratorPlayback)_player.GetStreamPlayback();
+            _GenerateTree();
+        }
+
+        if (_player.Playing)
+        {
+            PlayGeneratedAudio(delta);
         }
     }
 
-    public void PlayGeneratedAudio()
+    public void PlayGeneratedAudio(double deltaTime)
     {
-        _player.Stop();
-        _player.Play();
-        _playbackStream = (AudioStreamGeneratorPlayback)_player.GetStreamPlayback();
-        _nodeTree = _GenerateTreeFromGodotConnections(GetNode<GraphEdit>("NodeGraph/GraphEdit").GetConnectionList(), "Output");
+
         double volume = GetNode<HSlider>("NodeGraph/VolumeSlider").Value;
 
         double increment = 1.0 / SAMPLE_RATE;
-        double to_fill = _playbackStream.GetFramesAvailable();
-
+        //_nodeTree = _GenerateTreeFromGodotConnections(GetNode<GraphEdit>("NodeGraph/GraphEdit").GetConnectionList(), "Output");
+        double to_fill = Math.Min(_playbackStream.GetFramesAvailable(), Math.Round(1 / deltaTime) * SAMPLE_RATE);
         while (to_fill > 0)
         {
             BaseNode.Time = _phase;
@@ -99,6 +110,10 @@ public partial class MainNode : Node2D
                 return new WaveformGeneratorNode(new(), args, path, node.GetNode<OptionButton>("Option").Selected);
             case "Time":
                 return new TimeNode(new(), args, path);
+            case "InlineComment":
+                return new InlineComment(new(), args, path);
+            case "Oscilloscope":
+                return new OscilloscopeNode(new(), args, path, node.GetNode<Control>("Surface"));
             default:
                 return null;
         }
@@ -115,5 +130,11 @@ public partial class MainNode : Node2D
             }
         }
         return currentNode;
+    }
+
+    private void _GenerateTree()
+    {
+        _nodeTree?.Dispose();
+        _nodeTree = _GenerateTreeFromGodotConnections(GetNode<GraphEdit>("NodeGraph/GraphEdit").GetConnectionList(), "Output");
     }
 }

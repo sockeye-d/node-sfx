@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://b0rivq12av407"]
+[gd_scene load_steps=3 format=3 uid="uid://b0rivq12av407"]
 
 [ext_resource type="Script" path="res://NodeGraph/node_selector.gd" id="1_dt7s2"]
+[ext_resource type="PackedScene" uid="uid://bc2p61vw5rhbp" path="res://NodeGraph/nodes.tscn" id="2_jg00p"]
 
 [node name="NodeSelector" type="Window"]
 initial_position = 1
@@ -12,6 +13,7 @@ unresizable = true
 always_on_top = true
 popup_window = true
 script = ExtResource("1_dt7s2")
+NODES = ExtResource("2_jg00p")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -28,12 +30,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-item_count = 5
-item_0/text = "WaveformGenerator"
-item_1/text = "Time"
-item_2/text = "Math"
-item_3/text = "InlineComment"
-item_4/text = "Comment"
 
 [node name="Button" type="Button" parent="Control"]
 layout_mode = 1

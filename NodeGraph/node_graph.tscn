@@ -58,6 +58,7 @@ allow_greater = true
 allow_lesser = true
 
 [node name="Nodes" parent="." instance=ExtResource("3_xhu6k")]
+process_mode = 4
 visible = false
 layout_mode = 1
 
