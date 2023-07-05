@@ -15,7 +15,6 @@ public partial class OscilloscopeNode : BaseNode
     {
         _surface = surface;
         _surface.Draw += _DrawOscilloscope;
-        GD.Print(_surface);
     }
 
     public override double Calculate(double[] args)
@@ -24,7 +23,7 @@ public partial class OscilloscopeNode : BaseNode
         _heightScale = (float)args[2];
         _heightOffset = (float)(args[3] + 0.5);
         _queue.Enqueue(args[0]);
-        while(_queue.Count > _sampleCount)
+        while (_queue.Count > _sampleCount)
         {
             _queue.Dequeue();
         }
@@ -33,25 +32,19 @@ public partial class OscilloscopeNode : BaseNode
 
     private void _DrawOscilloscope()
     {
-
-        Vector2 surfaceSize = _surface.CustomMinimumSize;
-
-        Vector2 oldDrawPos = Vector2.Zero;
-
-        int x = 0;
-        foreach(double y in _queue)
+        if (_queue.Count > 1)
         {
-            Vector2 drawPos = new Vector2(x / (float)(_sampleCount - 1), ((float)y + _heightOffset) * _heightScale) * surfaceSize;
-            if (x == 0)
-            {
-                oldDrawPos = drawPos;
-            }
-            _surface.DrawLine(oldDrawPos, drawPos, Color.FromHsv(0.3f, 1.0f, 1.0f));
-            oldDrawPos = drawPos;
-            x++;
-        }
+            Vector2 surfaceSize = _surface.CustomMinimumSize;
+            Vector2[] positions = new Vector2[_queue.Count];
 
-        GD.Print(_queue.Count);
+            int x = 0;
+            foreach (double y in _queue)
+            {
+                positions[x] = new Vector2(x / (float)(_sampleCount - 1), ((float)y + _heightOffset) * _heightScale) * surfaceSize;
+                x++;
+            }
+            _surface.DrawPolyline(positions, Color.FromHsv(0.3f, 1.0f, 1.0f), 1, true);
+        }
     }
 
     public override void Dispose()

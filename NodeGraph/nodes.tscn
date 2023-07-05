@@ -123,6 +123,8 @@ allow_lesser = true
 prefix = "B:"
 
 [node name="WaveformGenerator" type="GraphNode" parent="."]
+visible = false
+layout_mode = 0
 offset_right = 92.0
 offset_bottom = 80.0
 title = "WaveformGenerator"
@@ -221,6 +223,7 @@ prefix = "Phase:"
 
 [node name="Time" type="GraphNode" parent="."]
 visible = false
+layout_mode = 0
 offset_right = 92.0
 offset_bottom = 80.0
 title = "Time"
@@ -242,6 +245,7 @@ horizontal_alignment = 2
 
 [node name="InlineComment" type="GraphNode" parent="."]
 visible = false
+layout_mode = 0
 offset_right = 92.0
 offset_bottom = 80.0
 title = "InlineComment"
@@ -296,6 +300,7 @@ prefix = "Input:"
 
 [node name="Comment" type="GraphNode" parent="."]
 visible = false
+layout_mode = 0
 offset_right = 92.0
 offset_bottom = 80.0
 title = "InlineComment"
@@ -317,6 +322,7 @@ placeholder_text = "Write a comment here..."
 
 [node name="Oscilloscope" type="GraphNode" parent="."]
 visible = false
+layout_mode = 0
 offset_right = 92.0
 offset_bottom = 80.0
 title = "Oscilloscope"

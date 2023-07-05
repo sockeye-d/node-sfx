@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-public partial class MainNode : Node2D
+public partial class MainNode : Control
 {
     [Export]
     double SAMPLE_RATE = 44100.0;
@@ -13,14 +13,40 @@ public partial class MainNode : Node2D
     public AudioStreamPlayer _player;
     public AudioStreamGeneratorPlayback _playbackStream;
 
-    public double _phase = 0;
+    public double _time = 0;
     private BaseNode _nodeTree;
 
-    public void _OnNodeGraphConnectionChanged()
+    public void OnNodeGraphConnectionChanged()
     {
         _GenerateTree();
-        GD.Print("Node graph has been changed");
     }
+
+    public void OnRestartPressed()
+    {
+        _time = 0;
+        _player.Play();
+        _playbackStream = (AudioStreamGeneratorPlayback)_player.GetStreamPlayback();
+        _GenerateTree();
+    }
+
+    public void OnPlayPressed()
+    {
+        if (_player.Playing)
+        {
+            _player.Stop();
+        }
+        else
+        {
+            _time = 0.0;
+            _player.Play();
+            _playbackStream = (AudioStreamGeneratorPlayback)_player.GetStreamPlayback();
+            _player.Stop();
+            _player.Play();
+            _playbackStream = (AudioStreamGeneratorPlayback)_player.GetStreamPlayback();
+            _GenerateTree();
+        }
+    }
+
 
     public override void _Ready()
     {
@@ -30,39 +56,33 @@ public partial class MainNode : Node2D
 
     public override void _Process(double delta)
     {
-        if (Input.IsActionJustPressed("run_tree") && _player.Playing)
-        {
-            _player.Stop();
-        }
-        else if (Input.IsActionJustPressed("run_tree"))
-        {
-            _phase = 0.0;
-            _player.Play();
-            _playbackStream = (AudioStreamGeneratorPlayback)_player.GetStreamPlayback();
-            _GenerateTree();
-        }
-
         if (_player.Playing)
         {
             PlayGeneratedAudio(delta);
         }
     }
+    public void InitializeAudio()
+    {
+        _time = 0.0;
+        _player.Play();
+        _playbackStream = (AudioStreamGeneratorPlayback)_player.GetStreamPlayback();
+        _player.Stop();
+    }
 
     public void PlayGeneratedAudio(double deltaTime)
     {
 
-        double volume = GetNode<HSlider>("NodeGraph/VolumeSlider").Value;
+        double volume = GetNode<HSlider>("Ui/VolumeSlider").Value;
 
         double increment = 1.0 / SAMPLE_RATE;
-        //_nodeTree = _GenerateTreeFromGodotConnections(GetNode<GraphEdit>("NodeGraph/GraphEdit").GetConnectionList(), "Output");
         double to_fill = Math.Min(_playbackStream.GetFramesAvailable(), Math.Round(1 / deltaTime) * SAMPLE_RATE);
         while (to_fill > 0)
         {
-            BaseNode.Time = _phase;
+            BaseNode.Time = _time;
             double value = _nodeTree.ExecuteNode();
             _AddMono(value * volume);
             GetNode<Label>("Label").Text = value.ToString();
-            _phase += increment;
+            _time += increment;
             to_fill--;
         }
     }

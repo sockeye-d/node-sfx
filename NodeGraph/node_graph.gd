@@ -2,8 +2,6 @@ class_name NodeGraph extends Control
 
 signal connection_changed
 
-@export var NODE_SELECTOR_WINDOW: PackedScene
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass
@@ -59,6 +57,7 @@ func _get_node_from_window(popup_pos: Vector2i):
 func _on_graph_edit_connection_from_empty(to_node, to_port, release_position):
 	var node: GraphNode = await _add_node(release_position)
 	$GraphEdit.connect_node(node.name, 0, to_node, to_port)
+	connection_changed.emit()
 
 
 func _on_graph_edit_delete_nodes_request(nodes):
@@ -70,3 +69,4 @@ func _on_graph_edit_delete_nodes_request(nodes):
 			if connection.to == node:
 				$GraphEdit.disconnect_node(connection.from, connection.from_port, connection.to, connection.to_port)
 		$GraphEdit.remove_child(get_node("GraphEdit/" + node))
+	connection_changed.emit()

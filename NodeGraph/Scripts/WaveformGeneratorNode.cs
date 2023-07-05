@@ -6,7 +6,7 @@ public class WaveformGeneratorNode : BaseNode
 {
     int _selectedFunction;
 
-    private static double hash11(double p)
+    private static double Hash11(double p)
     {
         p = (p * .1031) % 1.0;
         p *= p + 33.33;
@@ -16,8 +16,8 @@ public class WaveformGeneratorNode : BaseNode
 
     private static double _PerlinNoise(double x)
     {
-        double a = hash11(Math.Floor(x));
-        double b = hash11(Math.Floor(x) + 1.0);
+        double a = Hash11(Math.Floor(x));
+        double b = Hash11(Math.Floor(x) + 1.0);
         return a + (b - a) * Mathf.Ease(x % 1.0f, -2.0);
     }
 

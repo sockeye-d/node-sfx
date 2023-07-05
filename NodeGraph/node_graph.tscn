@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://cdgnkkgvihyrs"]
+[gd_scene load_steps=5 format=3 uid="uid://cdgnkkgvihyrs"]
 
 [ext_resource type="Theme" uid="uid://u2a8gk3qgmht" path="res://theme.tres" id="1_aefqm"]
 [ext_resource type="Script" path="res://NodeGraph/node_graph.gd" id="2_uelve"]
 [ext_resource type="PackedScene" uid="uid://bc2p61vw5rhbp" path="res://NodeGraph/nodes.tscn" id="3_xhu6k"]
+[ext_resource type="PackedScene" uid="uid://b0rivq12av407" path="res://NodeGraph/node_selector.tscn" id="4_42yt7"]
 
 [node name="NodeGraph" type="Control"]
 texture_filter = 2
@@ -10,8 +11,6 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 1152.0
-offset_bottom = 648.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_aefqm")
@@ -61,6 +60,9 @@ allow_lesser = true
 process_mode = 4
 visible = false
 layout_mode = 1
+
+[node name="NodeSelector" parent="." instance=ExtResource("4_42yt7")]
+visible = false
 
 [connection signal="connection_from_empty" from="GraphEdit" to="." method="_on_graph_edit_connection_from_empty"]
 [connection signal="connection_request" from="GraphEdit" to="." method="_on_graph_edit_connection_request"]

@@ -24,7 +24,6 @@ func _type_selected(index):
 	var selected_index = $Control/ItemList.get_selected_items()[0]
 	var selected: String = $Control/ItemList.get_item_text(selected_index)
 	node_selected.emit(selected)
-	print(selected)
 
 
 func _on_item_list_item_clicked(index, at_position, mouse_button_index):

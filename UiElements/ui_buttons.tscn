@@ -1,0 +1,73 @@
+[gd_scene load_steps=16 format=3 uid="uid://cdsmp7iug3fgr"]
+
+[ext_resource type="Script" path="res://UiElements/play_pause_buttons.gd" id="1_yk6gp"]
+[ext_resource type="Texture2D" uid="uid://61na1ndqtrl3" path="res://assets/icons/Play.png" id="2_jl86e"]
+[ext_resource type="Texture2D" uid="uid://6gjqhuowl1e6" path="res://assets/icons/Pause.png" id="3_f8xc7"]
+[ext_resource type="Texture2D" uid="uid://7xcunm10xvrc" path="res://assets/icons/Restart.png" id="4_wsyf2"]
+[ext_resource type="Script" path="res://UiElements/auto_texture_button.gd" id="5_eelhr"]
+[ext_resource type="Texture2D" uid="uid://ck1we3tvf56ce" path="res://assets/icons/AddNode.png" id="6_rhuh3"]
+[ext_resource type="Texture2D" uid="uid://b6f8osl88rlsm" path="res://assets/icons/DeleteNode.png" id="7_rfib5"]
+
+[sub_resource type="InputEventAction" id="InputEventAction_kukp2"]
+action = &"restart"
+
+[sub_resource type="Shortcut" id="Shortcut_1hs5j"]
+events = [SubResource("InputEventAction_kukp2")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_s06nh"]
+action = &"play"
+
+[sub_resource type="Shortcut" id="Shortcut_px00u"]
+events = [SubResource("InputEventAction_s06nh")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_irg4k"]
+action = &"add_node"
+
+[sub_resource type="Shortcut" id="Shortcut_w3gb4"]
+events = [SubResource("InputEventAction_irg4k")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_7ci71"]
+action = &"remove_node"
+
+[sub_resource type="Shortcut" id="Shortcut_gyk4v"]
+events = [SubResource("InputEventAction_7ci71")]
+
+[node name="UiButtons" type="HBoxContainer"]
+offset_right = 524.0
+offset_bottom = 128.0
+script = ExtResource("1_yk6gp")
+play_icon = ExtResource("2_jl86e")
+pause_icon = ExtResource("3_f8xc7")
+
+[node name="Restart" type="TextureButton" parent="."]
+layout_mode = 2
+tooltip_text = "Restart playback"
+shortcut = SubResource("Shortcut_1hs5j")
+texture_normal = ExtResource("4_wsyf2")
+script = ExtResource("5_eelhr")
+
+[node name="Play" type="TextureButton" parent="."]
+layout_mode = 2
+tooltip_text = "Start playback"
+shortcut = SubResource("Shortcut_px00u")
+texture_normal = ExtResource("2_jl86e")
+script = ExtResource("5_eelhr")
+
+[node name="AddNode" type="TextureButton" parent="."]
+layout_mode = 2
+tooltip_text = "Add a node"
+shortcut = SubResource("Shortcut_w3gb4")
+texture_normal = ExtResource("6_rhuh3")
+script = ExtResource("5_eelhr")
+
+[node name="RemoveNode" type="TextureButton" parent="."]
+layout_mode = 2
+tooltip_text = "Delete node(s)"
+shortcut = SubResource("Shortcut_gyk4v")
+texture_normal = ExtResource("7_rfib5")
+script = ExtResource("5_eelhr")
+
+[connection signal="pressed" from="Restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="AddNode" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="RemoveNode" to="." method="_on_play_pressed"]
