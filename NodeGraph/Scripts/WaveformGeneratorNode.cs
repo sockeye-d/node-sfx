@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 public class WaveformGeneratorNode : BaseNode
 {
-    int _selectedFunction;
-
-    private static double Hash11(double p)
+    private double _time;
+    private int _selectedFunction;
+    private static double _Hash11(double p)
     {
         p = (p * .1031) % 1.0;
         p *= p + 33.33;
@@ -16,8 +16,8 @@ public class WaveformGeneratorNode : BaseNode
 
     private static double _PerlinNoise(double x)
     {
-        double a = Hash11(Math.Floor(x));
-        double b = Hash11(Math.Floor(x) + 1.0);
+        double a = _Hash11(Math.Floor(x));
+        double b = _Hash11(Math.Floor(x) + 1.0);
         return a + (b - a) * Mathf.Ease(x % 1.0f, -2.0);
     }
 
@@ -38,6 +38,7 @@ public class WaveformGeneratorNode : BaseNode
 
     public override double Calculate(double[] args)
     {
-        return _functions[_selectedFunction].Invoke(Time, args[0], args[1], args[2]);
+        _time += DeltaTime;
+        return _functions[_selectedFunction].Invoke(_time, args[0], args[1], args[2]);
     }
 }

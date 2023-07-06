@@ -40,7 +40,7 @@ public partial class OscilloscopeNode : BaseNode
             int x = 0;
             foreach (double y in _queue)
             {
-                positions[x] = new Vector2(x / (float)(_sampleCount - 1), ((float)y + _heightOffset) * _heightScale) * surfaceSize;
+                positions[x] = new Vector2(x / (float)(_sampleCount - 1), Math.Clamp((float)y * _heightScale + _heightOffset, 0, 1)) * surfaceSize;
                 x++;
             }
             _surface.DrawPolyline(positions, Color.FromHsv(0.3f, 1.0f, 1.0f), 1, true);

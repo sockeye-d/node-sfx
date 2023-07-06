@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://btbt30fis0i1x" path="res://UiElements/ui_overlay.tscn" id="3_168ns"]
 
 [sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_v7eak"]
+buffer_length = 0.05
 
 [node name="MainNode" type="Control"]
 layout_mode = 3
@@ -33,6 +34,7 @@ text = "10000.0"
 layout_mode = 1
 
 [connection signal="connection_changed" from="NodeGraph" to="." method="OnNodeGraphConnectionChanged"]
+[connection signal="pressed" from="Ui/Restart" to="." method="OnRestartPressed"]
 [connection signal="pressed" from="Ui/Play" to="." method="OnPlayPressed"]
 
 [editable path="Ui"]

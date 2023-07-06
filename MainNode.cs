@@ -24,8 +24,6 @@ public partial class MainNode : Control
     public void OnRestartPressed()
     {
         _time = 0;
-        _player.Play();
-        _playbackStream = (AudioStreamGeneratorPlayback)_player.GetStreamPlayback();
         _GenerateTree();
     }
 
@@ -37,13 +35,9 @@ public partial class MainNode : Control
         }
         else
         {
-            _time = 0.0;
             _player.Play();
-            _playbackStream = (AudioStreamGeneratorPlayback)_player.GetStreamPlayback();
-            _player.Stop();
-            _player.Play();
-            _playbackStream = (AudioStreamGeneratorPlayback)_player.GetStreamPlayback();
             _GenerateTree();
+            _playbackStream = (AudioStreamGeneratorPlayback)_player.GetStreamPlayback();
         }
     }
 
@@ -60,6 +54,7 @@ public partial class MainNode : Control
         {
             PlayGeneratedAudio(delta);
         }
+        GetNode<TextureButton>("Ui/Restart").Disabled = !_player.Playing;
     }
     public void InitializeAudio()
     {
@@ -71,10 +66,9 @@ public partial class MainNode : Control
 
     public void PlayGeneratedAudio(double deltaTime)
     {
-
         double volume = GetNode<HSlider>("Ui/VolumeSlider").Value;
-
         double increment = 1.0 / SAMPLE_RATE;
+        BaseNode.DeltaTime = increment;
         double to_fill = Math.Min(_playbackStream.GetFramesAvailable(), Math.Round(1 / deltaTime) * SAMPLE_RATE);
         while (to_fill > 0)
         {

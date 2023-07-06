@@ -13,16 +13,20 @@ func _ready():
 
 
 func _on_mouse_entered():
-	modulate.a = hover_alpha
+	if not disabled:
+		modulate.a = hover_alpha
 
 
 func _on_mouse_exited():
-	modulate.a = normal_alpha
+	if not disabled:
+		modulate.a = normal_alpha
 
 
 func _on_button_down():
-	modulate.a = pressed_alpha
+	if not disabled:
+		modulate.a = pressed_alpha
 
 
 func _on_button_up():
-	modulate.a = hover_alpha
+	if not disabled:
+		modulate.a = hover_alpha

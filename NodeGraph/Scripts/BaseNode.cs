@@ -6,6 +6,7 @@ using System.Text;
 public abstract class BaseNode : IDisposable
 {
     public static double Time;
+    public static double DeltaTime;
     public static double SampleRate;
 
     public string Identifier;
