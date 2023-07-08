@@ -38,7 +38,7 @@ public class WaveformGeneratorNode : BaseNode
 
     public override double Calculate(double[] args)
     {
-        _time += DeltaTime;
-        return _functions[_selectedFunction].Invoke(_time, args[0], args[1], args[2]);
+        _time += DeltaTime * args[0];
+        return _functions[_selectedFunction].Invoke(_time, 1, args[1], args[2]);
     }
 }

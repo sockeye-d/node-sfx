@@ -64,7 +64,7 @@ public abstract class BaseNode : IDisposable
     {
         foreach (var kvp in Left)
         {
-            kvp.Value.Dispose();
+            kvp.Value?.Dispose();
         }
     }
 }

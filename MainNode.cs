@@ -8,7 +8,12 @@ using System.Text;
 public partial class MainNode : Control
 {
     [Export]
-    double SAMPLE_RATE = 44100.0;
+    public double SAMPLE_RATE = 44100.0;
+
+    [Export]
+    public Texture2D PLAY_ICON;
+    [Export]
+    public Texture2D PAUSE_ICON;
 
     public AudioStreamPlayer _player;
     public AudioStreamGeneratorPlayback _playbackStream;
@@ -32,12 +37,14 @@ public partial class MainNode : Control
         if (_player.Playing)
         {
             _player.Stop();
+            GetNode<TextureButton>("Ui/Play").TextureNormal = PLAY_ICON;
         }
         else
         {
             _player.Play();
             _GenerateTree();
             _playbackStream = (AudioStreamGeneratorPlayback)_player.GetStreamPlayback();
+            GetNode<TextureButton>("Ui/Play").TextureNormal = PAUSE_ICON;
         }
     }
 
@@ -56,6 +63,7 @@ public partial class MainNode : Control
         }
         GetNode<TextureButton>("Ui/Restart").Disabled = !_player.Playing;
     }
+
     public void InitializeAudio()
     {
         _time = 0.0;
@@ -107,13 +115,8 @@ public partial class MainNode : Control
     private BaseNode _GetNodeFromGraphNode(GraphNode node)
     {
         double[] args = _GetNodeArgs(node);
-        NodePath nodePath = node.GetPath();
-        string path = nodePath.GetName(nodePath.GetNameCount() - 1);
-        string nodeType = path;
-        if (nodeType.StartsWith("@"))
-        {
-            nodeType = nodeType.Split("@")[1];
-        }
+        string path = node.Name.ToString();
+        string nodeType = path.Split('_')[0];
         switch (nodeType)
         {
             case "Math":
@@ -128,6 +131,8 @@ public partial class MainNode : Control
                 return new InlineComment(new(), args, path);
             case "Oscilloscope":
                 return new OscilloscopeNode(new(), args, path, node.GetNode<Control>("Surface"));
+            case "Automator":
+                return new AutomatorNode(new(), args, path, node.Get("keyframes").As<Vector2[]>());
             default:
                 return null;
         }

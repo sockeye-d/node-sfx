@@ -4,8 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://bc2p61vw5rhbp" path="res://NodeGraph/nodes.tscn" id="2_jg00p"]
 
 [node name="NodeSelector" type="Window"]
-initial_position = 1
 title = "Select node..."
+initial_position = 1
 size = Vector2i(200, 300)
 transient = true
 exclusive = true

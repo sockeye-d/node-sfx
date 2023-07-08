@@ -30,3 +30,11 @@ func _on_button_down():
 func _on_button_up():
 	if not disabled:
 		modulate.a = hover_alpha
+
+
+func force_update_alpha():
+	modulate.a = normal_alpha
+	if is_hovered():
+		modulate.a = hover_alpha
+	if button_pressed:
+		modulate.a = pressed_alpha
